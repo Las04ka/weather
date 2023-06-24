@@ -1,0 +1,28 @@
+<div
+  class="wrapper"
+  *ngIf="forecastResponse; else loading">
+  <mat-card
+    *ngFor="let forecast of forecastResponse.list"
+    class="card"
+    ><mat-card-header class="card-header">
+      <p class="time">
+        {{
+          (forecast.dt + forecastResponse.city.timezone) * 1000 | date : 'HH:mm'
+        }}
+        GMT+{{ forecastResponse.city.timezone / 3600 }}
+      </p>
+      <p class="temp">{{ forecast.main.temp | number : '1.0-1' }}°C</p>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="wind">Вітер {{ forecast.wind.speed }}м/сек</p>
+      <p class="humidity">Вологість {{ forecast.main.humidity }}%</p>
+      <div class="description">
+        <span *ngFor="let weather of forecast.weather">{{
+          weather.description
+        }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<ng-template #loading>Content to render when condition is false.</ng-template>
