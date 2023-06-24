@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { catchError, Observable, throwError } from 'rxjs';
 import { IForecastResponse } from 'src/app/interfaces/forecast-response';
 import { environment } from 'src/environments/environment.development';
 
@@ -20,8 +21,20 @@ export class WeatherService {
             .set('appid', this.apiKey),
         }
       : {};
-    return this.http.get<IForecastResponse>(this.apiUrl, options);
+    return this.http.get<IForecastResponse>(this.apiUrl, options).pipe(
+      catchError((err) => {
+        console.log(err);
+        this.snackBar.open(
+          'Something went wrong: ' + err.status + ' ' + err.statusText,
+          'close',
+          {
+            duration: 5000,
+          },
+        );
+        return throwError(() => new Error('Something bad happened'));
+      }),
+    );
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 }
