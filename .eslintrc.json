@@ -73,14 +73,6 @@
           }
         ]
       }
-    },
-    {
-      "files": ["*.ts"],
-      "extends": ["plugin:@ngrx/strict-requiring-type-checking"],
-      "rules": {
-        "@ngrx/on-function-explicit-return-type": "off",
-        "@ngrx/no-typed-global-store": "off"
-      }
     }
   ]
 }

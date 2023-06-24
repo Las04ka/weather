@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Cities } from 'src/app/constants/cities';
+import { DegreeTypes } from 'src/app/constants/degree-types';
 import { IForecastResponse } from 'src/app/interfaces/forecast-response';
 import { WeatherService } from 'src/app/services/weather.service';
 
@@ -10,6 +11,7 @@ import { WeatherService } from 'src/app/services/weather.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  degreeTypes = DegreeTypes;
   cities = Cities;
   forecastResponse?: IForecastResponse;
   selectedCity = new FormControl(this.cities[0]);
@@ -28,5 +30,10 @@ export class AppComponent implements OnInit {
           .subscribe((el) => (this.forecastResponse = el));
       }
     });
+  }
+
+  displayTemperature(temp: number, type: string): number {
+    type === 'fahrenheit' ? (temp = (temp * 9) / 5 + 32) : temp;
+    return temp;
   }
 }
