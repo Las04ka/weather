@@ -12,7 +12,7 @@ import { WeatherService } from 'src/app/services/weather.service';
 export class AppComponent implements OnInit {
   cities = Cities;
   forecastResponse?: IForecastResponse;
-  selectedCity = new FormControl();
+  selectedCity = new FormControl(this.cities[0]);
 
   constructor(private weatherService: WeatherService) {}
 
@@ -21,10 +21,12 @@ export class AppComponent implements OnInit {
       .getWeather(this.cities[0])
       .subscribe((el) => (this.forecastResponse = el));
 
-    this.selectedCity.valueChanges.subscribe((city) =>
-      this.weatherService
-        .getWeather(city)
-        .subscribe((el) => (this.forecastResponse = el)),
-    );
+    this.selectedCity.valueChanges.subscribe((city) => {
+      if (city) {
+        this.weatherService
+          .getWeather(city)
+          .subscribe((el) => (this.forecastResponse = el));
+      }
+    });
   }
 }

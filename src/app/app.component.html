@@ -8,6 +8,10 @@
     </mat-option>
   </mat-select>
 </mat-form-field>
+<mat-button-toggle-group #group="matButtonToggleGroup" value="celsius">
+  <mat-button-toggle value="celsius"> °C </mat-button-toggle>
+  <mat-button-toggle value="fahrenheit"> °F </mat-button-toggle>
+</mat-button-toggle-group>
 <div
   class="wrapper"
   *ngIf="forecastResponse; else loading">
@@ -21,7 +25,15 @@
         }}
         GMT+{{ forecastResponse.city.timezone / 3600 }}
       </p>
-      <p class="temp">{{ forecast.main.temp | number : '1.0-1' }}°C</p>
+      <p class="temp">
+        {{
+          (group.value === 'fahrenheit'
+            ? (forecast.main.temp * 9) / 5 + 32
+            : forecast.main.temp
+          ) | number : '1.0-1'
+        }}
+        {{ group.value === 'fahrenheit' ? '°F' : '°C' }}
+      </p>
     </mat-card-header>
     <mat-card-content>
       <p class="wind">Вітер {{ forecast.wind.speed }}м/сек</p>
