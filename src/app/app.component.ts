@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Cities } from 'src/app/constants/cities';
 import { IForecastResponse } from 'src/app/interfaces/forecast-response';
 import { WeatherService } from 'src/app/services/weather.service';
@@ -11,6 +12,7 @@ import { WeatherService } from 'src/app/services/weather.service';
 export class AppComponent implements OnInit {
   cities = Cities;
   forecastResponse?: IForecastResponse;
+  selectedCity = new FormControl();
 
   constructor(private weatherService: WeatherService) {}
 
@@ -18,5 +20,11 @@ export class AppComponent implements OnInit {
     this.weatherService
       .getWeather(this.cities[0])
       .subscribe((el) => (this.forecastResponse = el));
+
+    this.selectedCity.valueChanges.subscribe((city) =>
+      this.weatherService
+        .getWeather(city)
+        .subscribe((el) => (this.forecastResponse = el)),
+    );
   }
 }
