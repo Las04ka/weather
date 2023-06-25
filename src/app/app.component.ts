@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
 import { Cities } from 'src/app/constants/cities';
 import { DegreeTypes } from 'src/app/constants/degree-types';
 import { IForecastResponse } from 'src/app/interfaces/forecast-response';

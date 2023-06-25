@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, Observable, throwError } from 'rxjs';
+
 import { IForecastResponse } from 'src/app/interfaces/forecast-response';
 import { environment } from 'src/environments/environment.development';
 
@@ -9,6 +10,8 @@ import { environment } from 'src/environments/environment.development';
 export class WeatherService {
   apiKey = environment.apiKey;
   apiUrl = environment.apiUrl;
+
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
   getWeather(name: string): Observable<IForecastResponse> {
     const options = name
@@ -35,6 +38,4 @@ export class WeatherService {
       }),
     );
   }
-
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 }
